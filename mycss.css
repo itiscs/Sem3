@@ -1,0 +1,20 @@
+﻿body
+{
+}
+.myclass {
+    font-family: Calibri;
+    font-size: 30px;
+}
+
+ul {
+    list-style-type: circle;
+    font-size: 16px;
+}
+
+p.p1 {
+    color: yellow;
+}
+
+p.p2 {
+    color: green;
+}
