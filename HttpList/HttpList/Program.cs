@@ -40,27 +40,37 @@ namespace HttpList
                 HttpListenerContext context = listener.GetContext();
 
                 HttpListenerRequest request = context.Request;
+                Cookie cook = request.Cookies["FirstName"];
 
-                string postData = GetRequestPostData(request);
+                HttpListenerResponse response = context.Response;
+                string responseStr;
 
-                Dictionary<string, string> pd = new Dictionary<string, string>();
-                Console.WriteLine("PostData:");
-                if(postData != null)
-                    foreach(string str in postData.Split('&'))
+                if (cook != null) //если есть куки, обращаемся к пользователю
+                {
+                    responseStr = $"<html><head></head><body>Hello, {cook.Value} </body></html>";
+                }
+                else
+                {
+                    
+                    string postData = GetRequestPostData(request);
+
+                    Dictionary<string, string> pd = new Dictionary<string, string>();
+                    Console.WriteLine("PostData:");
+                    if (postData != null)    //если постзапрос, получаем данные формы
                     {
-                        var dictStr = str.Split('=');
-                        pd[dictStr[0]] = dictStr[1];
-                        Console.WriteLine($"{dictStr[0]} {dictStr[1]}");
+                        foreach (string str in postData.Split('&'))
+                        {
+                            var dictStr = str.Split('=');
+                            pd[dictStr[0]] = dictStr[1];
+                            Console.WriteLine($"{dictStr[0]} {dictStr[1]}");
+                        }
+                        cook = new Cookie("FirstName", pd["firstname"]);
+                        response.AppendCookie(cook);
+                        responseStr = $"<html><head></head><body><form method=\"post\">First name: <input type=\"text\" name=\"firstname\" value=\"{pd["firstname"]}\" /><br />Last name: <input type=\"text\" name=\"lastname\"  value=\"{pd["lastname"]}\"   /><input type=\"submit\" value=\"Submit\" /></form></html>";
                     }
-                
-
-                // получаем объект ответа
-                 HttpListenerResponse response = context.Response;
-                
-                // создаем ответ в виде кода html
-                string responseStr = "<html><head></head><body><form method=\"post\">First name: <input type=\"text\" name=\"firstname\" /><br />Last name: <input type=\"text\" name=\"lastname\" /><input type=\"submit\" value=\"Submit\" /></form></html>";
-                if(pd.Count == 2)
-                    responseStr = $"<html><head></head><body><form method=\"post\">First name: <input type=\"text\" name=\"firstname\" value=\"{pd["firstname"]}\" /><br />Last name: <input type=\"text\" name=\"lastname\"  value=\"{pd["lastname"]}\"   /><input type=\"submit\" value=\"Submit\" /></form></html>";
+                    else         // если гет-запрос отправляем форму
+                        responseStr = "<html><head></head><body><form method=\"post\">First name: <input type=\"text\" name=\"firstname\" /><br />Last name: <input type=\"text\" name=\"lastname\" /><input type=\"submit\" value=\"Submit\" /></form></html>";
+                }
 
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseStr);
                 // получаем поток ответа и пишем в него ответ
