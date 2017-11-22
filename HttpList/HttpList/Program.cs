@@ -31,6 +31,7 @@ namespace HttpList
             // установка адресов прослушки
             listener.Prefixes.Add("http://localhost:8888/connection/");
             listener.Prefixes.Add("http://localhost:8888/connection2/");
+            listener.AuthenticationSchemes = AuthenticationSchemes.Basic;
             listener.Start();
             Console.WriteLine("Ожидание подключений...");
             // метод GetContext блокирует текущий поток, ожидая получение запроса 
@@ -38,7 +39,7 @@ namespace HttpList
             while (true)
             {
                 HttpListenerContext context = listener.GetContext();
-
+         
                 HttpListenerRequest request = context.Request;
                 Cookie cook = request.Cookies["FirstName"];
 

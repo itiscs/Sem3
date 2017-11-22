@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  asynclist:
+    image: asynclist
+    build:
+      context: .\AsyncList
+      dockerfile: Dockerfile
