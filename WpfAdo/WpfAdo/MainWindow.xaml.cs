@@ -29,6 +29,12 @@ namespace WpfAdo
         {
 
             WpfAdo.DataSet1 dataSet1 = ((WpfAdo.DataSet1)(this.FindResource("dataSet1")));
+            // Загрузить данные в таблицу Orders. Можно изменить этот код как требуется.
+            WpfAdo.DataSet1TableAdapters.OrdersTableAdapter dataSet1OrdersTableAdapter = new WpfAdo.DataSet1TableAdapters.OrdersTableAdapter();
+            dataSet1OrdersTableAdapter.Fill(dataSet1.Orders);
+            System.Windows.Data.CollectionViewSource ordersViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("ordersViewSource")));
+            ordersViewSource.View.MoveCurrentToFirst();
+
             // Загрузить данные в таблицу Customers. Можно изменить этот код как требуется.
             WpfAdo.DataSet1TableAdapters.CustomersTableAdapter dataSet1CustomersTableAdapter = new WpfAdo.DataSet1TableAdapters.CustomersTableAdapter();
             dataSet1CustomersTableAdapter.Fill(dataSet1.Customers);
@@ -61,6 +67,12 @@ namespace WpfAdo
             zadacha1ViewSource.View.MoveCurrentToFirst();
 
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            EFWindow w = new EFWindow();
+            w.ShowDialog();
         }
     }
 }
