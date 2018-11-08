@@ -20,3 +20,14 @@
 /AsyncList/.vs/AsyncList/v15
 /AsyncList/AsyncList/bin/Debug
 /AsyncList/AsyncList/obj/Debug
+/AsyncList/AsyncList/obj/Release
+/EFCodeFirst/EFCodeFirst/obj/Release
+/EFDatabaseFirst/EFDatabaseFirst/obj
+/UDPChat/.vs/UDPChat/v15
+/UDPChat/UDPChat/obj
+/WebAppEFMany/.vs
+/WebAppEFMany/packages
+/WebAppEFMany/WebAppEFMany/App_Data
+/WebAppEFMany/WebAppEFMany/bin
+/WebAppEFMany/WebAppEFMany/obj
+/WpfAdo/WpfAdo/obj/Release
